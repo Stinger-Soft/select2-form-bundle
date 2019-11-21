@@ -1,0 +1,194 @@
+{% block stinger_soft_select2_form_entity_widget %}
+{% import 'PecSelect2FormBundle::macros.html.twig' as self %}
+<span class="{% if errors|length > 0 %}has-error{% endif %}">
+	{{ block("choice_widget") }}
+</span>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var select2_init_{{ form.vars.id }} = function(){
+			{{ self.generateSelect2Options(select2Options, select2OptionsJavaScript) }}
+			{% if 'ajax' in select2Options|keys %}
+				options = jQuery.extend(options, {
+					{% if not multiple and value in choices|keys %}
+					data: [{"id": '{{ value }}', "text": '{{ choices[value].label }}'}]
+					{% endif %}
+					{% if multiple %}
+					data: [
+						{% for item in value %}
+							{"id": '{{ item }}', "text": '{{ choices[item].label }}'}{% if not loop.last %}, {% endif %}
+						{% endfor %}
+					]
+					{% endif %}
+				});
+			{% endif %}
+			StingerSoftSelect2.init('#{{ form.vars.id }}', options);
+			{% if 'showTooltip' in select2Options|keys and select2Options.showTooltip %}
+				StingerSoftSelect2.addTooltip('#{{ form.vars.id }}', '{{ select2Options.showTooltip }}');
+			{% endif %}
+			{% if 'showSelectionTooltip' in select2Options|keys and select2Options.showSelectionTooltip %}
+				StingerSoftSelect2.addSelectionTooltip('#{{ form.vars.id }}', '{{ select2Options.showSelectionTooltip }}');
+			{% endif %}
+			{% if 'renderTitle' in select2Options|keys and not select2Options.renderTitle %}
+			StingerSoftSelect2.removeTitle('#{{ form.vars.id }}');
+			{% endif %}
+		};
+
+		if(typeof StingerSoftSelect2 === "undefined"){
+			PecPlatform.loadScript('{{ absolute_url(asset('bundles/pecselect2form/scripts/StingerSoftSelect2.js')) }}', function(){
+				select2_init_{{ form.vars.id }}();
+			});
+		}else{
+			select2_init_{{ form.vars.id }}();
+		}
+	});
+
+
+</script>
+{% endblock %}
+
+{% block stinger_soft_select2_form_choice_widget %}
+	{% import 'PecSelect2FormBundle::macros.html.twig' as self %}
+	<span class="{% if errors|length > 0 %}has-error{% endif %}">
+		{{ block("choice_widget") }}
+	</span>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			var select2_init_{{ form.vars.id }} = function(){
+				{{ self.generateSelect2Options(select2Options, select2OptionsJavaScript) }}
+				StingerSoftSelect2.init('#{{ form.vars.id }}', options);
+				{% if 'showSelectionTooltip' in select2Options|keys and select2Options.showSelectionTooltip %}
+				StingerSoftSelect2.addSelectionTooltip('#{{ form.vars.id }}', '{{ select2Options.showSelectionTooltip }}');
+				{% endif %}
+				{% if 'renderTitle' in select2Options|keys and not select2Options.renderTitle %}
+				StingerSoftSelect2.removeTitle('#{{ form.vars.id }}');
+				{% endif %}
+			};
+	
+			if(typeof StingerSoftSelect2 === "undefined") {
+				PecPlatform.loadScript('{{ absolute_url(asset('bundles/pecselect2form/scripts/StingerSoftSelect2.js')) }}', function(){
+					select2_init_{{ form.vars.id }}();
+				});
+			} else {
+				select2_init_{{ form.vars.id }}();
+			}
+		});
+	</script>
+{% endblock stinger_soft_select2_form_choice_widget %}
+
+{#
+	
+#}
+{% block stinger_soft_select2_form_hierarchical_widget %}
+	{% import 'PecSelect2FormBundle::macros.html.twig' as self %}
+	{% if app.environment == 'test' %}
+		{{ block("choice_widget") }}
+	{% else %}
+		{% set tempChoices = choices %}
+		{% set choices = [] %}	
+		{{ block("choice_widget") }}
+		{% set choices = tempChoices %}
+	{% endif %}
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			var select2_init_{{ form.vars.id }} = function() {
+				var data = {{ hierarchicalData|json_encode|raw }};
+				{{ self.generateSelect2Options(select2Options, select2OptionsJavaScript) }}
+				options = jQuery.extend(options, {
+					data: data
+				});
+				var $select2Field = StingerSoftSelect2.init('#{{ form.vars.id }}', options);
+				{% if 'showSelectionTooltip' in select2Options|keys and select2Options.showSelectionTooltip %}
+				StingerSoftSelect2.addSelectionTooltip('#{{ form.vars.id }}', '{{ select2Options.showSelectionTooltip }}');
+				{% endif %}
+				{% if 'renderTitle' in select2Options|keys and not select2Options.renderTitle %}
+				StingerSoftSelect2.removeTitle('#{{ form.vars.id }}');
+				{% endif %}
+				var selectedOptions = [];
+				{%- for group_label, choice in choices if choice is selectedchoice(value) -%}
+					selectedOptions.push("{{ choice.value }}");
+				{%- endfor -%}
+				$select2Field.val(selectedOptions).trigger("change");
+			};
+			
+			if(typeof StingerSoftSelect2 === "undefined") {
+				PecPlatform.loadScript('{{ absolute_url(asset('bundles/pecselect2form/scripts/StingerSoftSelect2.js')) }}', function(){
+					select2_init_{{ form.vars.id }}();
+				});
+			} else {
+				select2_init_{{ form.vars.id }}();
+			}
+		});
+	</script>
+{% endblock stinger_soft_select2_form_hierarchical_widget %}
+
+{% block stinger_soft_select2_form_sync_tag_widget %}
+	{% import 'PecSelect2FormBundle::macros.html.twig' as self %}
+{# 	{% set expanded = false %}#}
+{# 	{% set placeholder = false %}#}
+{# 	{% set preferred_choices = [] %}#}
+{# 	{% set choices = [] %}#}
+	{{ block("choice_widget") }}
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var select2_init_{{ form.vars.id }} = function(){
+			{{ self.generateSelect2Options(select2Options, select2OptionsJavaScript) }}
+			options = jQuery.extend(options, {
+				createSearchChoice: function(term, data) { 
+					if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {
+					return {id:term, text:term};} 
+				},
+				{% if not multiple and tags is defined %}
+					data: {{ tags|json_encode|raw }}
+				{% else %}
+					tags: true,
+					separator: "{{ delimiter }} ",
+					tokenSeparators: ["{{ delimiter }}"]
+				{% endif %}
+			});
+			StingerSoftSelect2.init('#{{ form.vars.id }}', options);
+		};
+		
+		if(typeof StingerSoftSelect2 === "undefined"){
+			PecPlatform.loadScript('{{ absolute_url(asset('bundles/pecselect2form/scripts/StingerSoftSelect2.js')) }}', function(){
+				select2_init_{{ form.vars.id }}();
+			});
+		}else{
+			select2_init_{{ form.vars.id }}();
+		}
+	});
+	</script>
+{% endblock stinger_soft_select2_form_sync_tag_widget %}
+
+{% block stinger_soft_select2_form_async_tag_widget %}
+	{% import 'PecSelect2FormBundle::macros.html.twig' as self %}
+	{{ block("choice_widget") }}
+	{% set value = {'Admin (admin)' : 'Admin (admin)'} %}
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var select2_init_{{ form.vars.id }} = function(){
+			{{ self.generateSelect2Options(select2Options, select2OptionsJavaScript) }}
+			options = jQuery.extend(options, {
+				{% if multiple %}
+					separator: "{{ delimiter }} ",
+					tokenSeparators: ["{{ delimiter }}"]
+				{% endif %}
+			});
+			StingerSoftSelect2.init('#{{ form.vars.id }}', options);
+		};
+
+		if(typeof StingerSoftSelect2 === "undefined"){
+			PecPlatform.loadScript('{{ absolute_url(asset('bundles/pecselect2form/scripts/StingerSoftSelect2.js')) }}', function(){
+				select2_init_{{ form.vars.id }}();
+			});
+		}else{
+			select2_init_{{ form.vars.id }}();
+		}
+	});
+	</script>
+{% endblock stinger_soft_select2_form_async_tag_widget %}
+
+{% block stinger_soft_select2_form_entity_errors %}
+	{% spaceless %}{% if errors|length > 0 %}{% for error in errors %}<span class="help-block">{{ error.message }}</span>{% endfor %}{% endif %}{% endspaceless %}
+{% endblock %}
+
+{% block stinger_soft_select2_form_choice_errors %}{{ block('stinger_soft_select2_form_entity_errors') }}{% endblock %}

@@ -1,0 +1,14 @@
+{% macro recursiveCreateJson(options) %}
+	{% import _self as self %}
+	{% for option, value in options %}
+		{{ option|json_encode|raw }}: {% if value is iterable %}{ {{ self.recursiveCreateJson(value) }} }{% else %}{{ value|raw }}{% endif %}{% if not loop.last %},{% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% macro generateSelect2Options(basicOptions, jsOptions) %}
+	{% import _self as self %}
+	var options = {{ basicOptions|json_encode|raw }};
+	options = jQuery.extend(true, options, {
+		{{ self.recursiveCreateJson(jsOptions) }}
+	});
+{% endmacro %}

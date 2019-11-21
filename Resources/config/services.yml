@@ -1,0 +1,52 @@
+parameters:
+  stinger_soft_select2_form.base.type.class: 'StingerSoft\Select2FormBundle\Form\Select2BaseType'
+  stinger_soft_select2_form.choice.type.class: 'StingerSoft\Select2FormBundle\Form\Select2ChoiceType'
+  stinger_soft_select2_form.country.type.class: 'StingerSoft\Select2FormBundle\Form\Select2CountryType'
+  stinger_soft_select2_form.entity.type.class: 'StingerSoft\Select2FormBundle\Form\Select2EntityType'
+  stinger_soft_select2_form.hierarchical.type.class: 'StingerSoft\Select2FormBundle\Form\Select2HierarchicalType'
+  stinger_soft_select2_form.sync_tag.type.class: 'StingerSoft\Select2FormBundle\Form\Select2SyncTagType'
+  stinger_soft_select2_form.async_tag.type.class: 'StingerSoft\Select2FormBundle\Form\Select2AsyncTagType'
+
+services:
+  stinger_soft_select2_form.base.type:
+    class: "%stinger_soft_select2_form.base.type.class%"
+    arguments: ["@router", "@translator", "@doctrine"]
+    abstract: true
+    public: false
+
+  stinger_soft_select2_form.choice.type:
+    class: "%stinger_soft_select2_form.choice.type.class%"
+    parent: stinger_soft_select2_form.base.type
+    tags:
+      - { name: form.type, alias: stinger_soft_select2_form_choice }
+
+  stinger_soft_select2_form.country.type:
+    class: "%stinger_soft_select2_form.country.type.class%"
+    parent: stinger_soft_select2_form.base.type
+    tags:
+      - { name: form.type, alias: stinger_soft_select2_form_country }
+
+  stinger_soft_select2_form.entity.type:
+    class: "%stinger_soft_select2_form.entity.type.class%"
+    parent: stinger_soft_select2_form.base.type
+    public: false
+    tags:
+      - { name: form.type, alias: stinger_soft_select2_form_entity }
+
+  stinger_soft_select2_form.hierarchical.type:
+    class: "%stinger_soft_select2_form.hierarchical.type.class%"
+    parent: stinger_soft_select2_form.base.type
+    tags:
+      - { name: form.type, alias: stinger_soft_select2_form_hierarchical }
+
+  stinger_soft_select2_form.sync_tag.type.type:
+    class: "%stinger_soft_select2_form.sync_tag.type.class%"
+    parent: stinger_soft_select2_form.base.type
+    tags:
+      - { name: form.type }
+
+  stinger_soft_select2_form.async_tag.type.type:
+    class: "%stinger_soft_select2_form.async_tag.type.class%"
+    parent: stinger_soft_select2_form.base.type
+    tags:
+      - { name: form.type }

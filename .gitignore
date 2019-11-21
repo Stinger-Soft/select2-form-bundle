@@ -1,0 +1,10 @@
+/vendor/
+/Tests/platform/config/parameters.yml
+/Tests/platform/cache/*
+!/Tests/platform/cache/.gitkeep
+/Tests/platform/web/*
+!/Tests/platform/web/.gitkeep
+/Tests/platform/logs/*
+!/Tests/platform/logs/.gitkeep
+.settings
+.buildpath
