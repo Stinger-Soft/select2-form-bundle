@@ -4,10 +4,13 @@ namespace StingerSoft\Select2FormBundle\Tests\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionClass;
 use StingerSoft\Select2FormBundle\DataTransformer\EntitiesToArrayTransformer;
 use StingerSoft\Select2FormBundle\Tests\BaseDoctrineTest;
-use StingerSoft\Select2FormBundle\Tests\Entity\Selectable;
+use StingerSoft\Select2FormBundle\Tests\Entity\SelectableSingleIdentity;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
 
@@ -15,24 +18,24 @@ class EntitiesToArrayTransformerTest extends BaseDoctrineTest {
 
 	/**
 	 *
-	 * @return \StingerSoft\Select2FormBundle\Tests\Entity\Selectable[]
+	 * @return SelectableSingleIdentity[]
 	 */
-	protected function getSelectables() {
-		return array(
-			new Selectable(12),
-			new Selectable(13),
-			new Selectable(14),
-			new Selectable(15) 
-		);
+	protected function getSelectables(): array {
+		return [
+			new SelectableSingleIdentity(12),
+			new SelectableSingleIdentity(13),
+			new SelectableSingleIdentity(14),
+			new SelectableSingleIdentity(15),
+		];
 	}
 
 	/**
 	 *
-	 * @param Selectable[] $selectables        	
+	 * @param SelectableSingleIdentity[] $selectables
 	 * @return integer[]
 	 */
-	protected function getIds(array $selectables) {
-		$ids = array();
+	protected function getIds(array $selectables): array {
+		$ids = [];
 		foreach($selectables as $selectable) {
 			$ids[] = $selectable->getId();
 		}
@@ -41,49 +44,49 @@ class EntitiesToArrayTransformerTest extends BaseDoctrineTest {
 
 	/**
 	 *
-	 * @param Selectable $s        	
+	 * @param SelectableSingleIdentity $s
 	 * @return integer[]
 	 */
-	protected function getIdentifierValues(Selectable $s) {
-		return array(
-			'id' => $s->getId() 
-		);
+	protected function getIdentifierValues(SelectableSingleIdentity $s): array {
+		return [
+			'id' => $s->getId(),
+		];
 	}
 
 	/**
 	 *
-	 * @param Selectable[] $selectables        	
+	 * @param SelectableSingleIdentity[] $selectables
 	 * @return ChoiceLoaderInterface
 	 */
-	protected function getChoiceList(array $selectables) {
-		return new CallbackChoiceLoader(function () use ($selectables) {
+	protected function getChoiceList(array $selectables): ChoiceLoaderInterface {
+		return new CallbackChoiceLoader(static function () use ($selectables) {
 			return $selectables;
 		});
 	}
 
 	/**
 	 *
-	 * @param Selectable[] $selectables        	
-	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 * @param SelectableSingleIdentity[] $selectables
+	 * @return ArrayCollection
 	 */
-	protected function getCollection(array $selectables) {
+	protected function getCollection(array $selectables): ArrayCollection {
 		return new ArrayCollection($selectables);
 	}
 
-	public function testConstruct() {
+	public function testConstruct(): void {
 		$em = $this->mockEntityManager();
-		$class = Selectable::class;
+		$class = SelectableSingleIdentity::class;
 		$choiceList = $this->getChoiceList($this->getSelectables());
 		new EntitiesToArrayTransformer($choiceList, $em, $class);
 		$this->assertTrue(true);
 	}
 
-	public function testTransform() {
+	public function testTransform(): void {
 		$selectables = $this->getSelectables();
 		$em = $this->mockEntityManager();
-		$class = Selectable::class;
+		$class = SelectableSingleIdentity::class;
 		$choiceList = $this->getChoiceList($selectables);
-		
+
 		// test with an initially filled list
 		$transformer = new EntitiesToArrayTransformer($choiceList, $em, $class);
 		$ids = $transformer->transform($this->getCollection($selectables));
@@ -91,33 +94,33 @@ class EntitiesToArrayTransformerTest extends BaseDoctrineTest {
 		$this->assertNotEmpty($ids);
 		$this->assertCount(count($selectables), $ids);
 		foreach($ids as $id) {
-			$this->assertTrue(count(array_filter($selectables, function ($selectable) use ($id) {
-				return $selectable->getId() == $id;
-			})) == 1);
+			$this->assertEquals(count(array_filter($selectables, static function (SelectableSingleIdentity $selectable) use ($id) {
+				return $selectable->getId() === $id;
+			})), 1);
 		}
-		
+
 		// test with an initially empty list
-		$transformer = new EntitiesToArrayTransformer($this->getChoiceList(array()), $em, $class);
+		$transformer = new EntitiesToArrayTransformer($this->getChoiceList([]), $em, $class);
 		$ids = $transformer->transform($this->getCollection($selectables));
 		$this->assertNotNull($ids);
 		$this->assertNotEmpty($ids);
 		$this->assertCount(count($selectables), $ids);
 		foreach($ids as $id) {
-			$this->assertTrue(count(array_filter($selectables, function ($selectable) use ($id) {
-				return $selectable->getId() == $id;
-			})) == 1);
+			$this->assertEquals(count(array_filter($selectables, static function (SelectableSingleIdentity $selectable) use ($id) {
+				return $selectable->getId() === $id;
+			})), 1);
 		}
 	}
 
-	public function testReverseTransform() {
+	public function testReverseTransform(): void {
 		$selectables = $this->getSelectables();
 		$em = $this->mockEntityManager();
 		$meta = $this->mockClassMetadata();
-		$em->method('getRepository')->will($this->returnValue($this->mockRepository($em, $meta)));
-		$class = Selectable::class;
+		$em->method('getRepository')->willReturn($this->mockRepository($em, $meta));
+		$class = SelectableSingleIdentity::class;
 		$choiceList = $this->getChoiceList($selectables);
 		$ids = $this->getIds($selectables);
-		
+
 		// test with an initially filled list
 		$transformer = new EntitiesToArrayTransformer($choiceList, $em, $class);
 		$selectables2 = $transformer->reverseTransform($ids);
@@ -125,99 +128,99 @@ class EntitiesToArrayTransformerTest extends BaseDoctrineTest {
 		$this->assertNotEmpty($selectables2);
 		$this->assertCount(count($selectables2), $ids);
 		foreach($selectables as $selectable) {
-			$this->assertTrue(count(array_filter($ids, function ($id) use ($selectable) {
-				return $selectable->getId() == $id;
-			})) == 1);
+			$this->assertEquals(count(array_filter($ids, static function ($id) use ($selectable) {
+				return $selectable->getId() === $id;
+			})), 1);
 		}
-		
+
 		// test with an initially empty list
-		$transformer = new EntitiesToArrayTransformer($this->getChoiceList(array()), $em, $class);
+		$transformer = new EntitiesToArrayTransformer($this->getChoiceList([]), $em, $class);
 		$selectables2 = $transformer->reverseTransform($ids);
 		$this->assertNotNull($selectables2);
 		$this->assertNotEmpty($selectables2);
 		$this->assertCount(count($selectables2), $ids);
 		foreach($selectables as $selectable) {
-			$this->assertTrue(count(array_filter($ids, function ($id) use ($selectable) {
-				return $selectable->getId() == $id;
-			})) == 1);
+			$this->assertEquals(count(array_filter($ids, static function ($id) use ($selectable) {
+				return $selectable->getId() === $id;
+			})), 1);
 		}
-		
+
 		// test with single value array, containing comma separated ids an an initially filled list
 		$transformer = new EntitiesToArrayTransformer($choiceList, $em, $class);
-		$selectables2 = $transformer->reverseTransform(array(
-			join(',', $ids) 
-		));
+		$selectables2 = $transformer->reverseTransform([
+			join(',', $ids),
+		]);
 		$this->assertNotNull($selectables2);
 		$this->assertNotEmpty($selectables2);
 		$this->assertCount(count($selectables2), $ids);
 		foreach($selectables as $selectable) {
-			$this->assertTrue(count(array_filter($ids, function ($id) use ($selectable) {
-				return $selectable->getId() == $id;
-			})) == 1);
+			$this->assertEquals(count(array_filter($ids, static function ($id) use ($selectable) {
+				return $selectable->getId() === $id;
+			})), 1);
 		}
-		
+
 		// test with single value array, containing comma separated ids an an initially empty list
-		$transformer = new EntitiesToArrayTransformer($this->getChoiceList(array()), $em, $class);
-		$selectables2 = $transformer->reverseTransform(array(
-			join(',', $ids) 
-		));
+		$transformer = new EntitiesToArrayTransformer($this->getChoiceList([]), $em, $class);
+		$selectables2 = $transformer->reverseTransform([
+			join(',', $ids),
+		]);
 		$this->assertNotNull($selectables2);
 		$this->assertNotEmpty($selectables2);
 		$this->assertCount(count($selectables2), $ids);
 		foreach($selectables as $selectable) {
-			$this->assertTrue(count(array_filter($ids, function ($id) use ($selectable) {
-				return $selectable->getId() == $id;
-			})) == 1);
+			$this->assertEquals(count(array_filter($ids, static function ($id) use ($selectable) {
+				return $selectable->getId() === $id;
+			})), 1);
 		}
 	}
 
-	protected function mockClassMetadata() {
-		$cm = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')->setMethods(array(
+	protected function mockClassMetadata(): MockObject {
+		$cm = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')->setMethods([
 			'getReflectionClass',
 			'getSingleIdentifierFieldName',
-			'getIdentifierValues' 
-		))->setConstructorArgs(array(
-			'Select2FormBundle:Selectable' 
-		))->getMock();
-		$cm->method('getReflectionClass')->will($this->returnValue(new \ReflectionClass(Selectable::class)));
-		$cm->method('getSingleIdentifierFieldName')->will($this->returnValue('id'));
-		$cm->method('getIdentifierValues')->will($this->returnCallback(function (Selectable $s) {
-			return array(
-				'id' => $s->getId() 
-			);
-		}));
+			'getIdentifierValues',
+		])->setConstructorArgs([
+			'Select2FormBundle:Selectable',
+		])->getMock();
+		$cm->method('getReflectionClass')->willReturn(new ReflectionClass(SelectableSingleIdentity::class));
+		$cm->method('getSingleIdentifierFieldName')->willReturn('id');
+		$cm->method('getIdentifierValues')->willReturnCallback(static function (SelectableSingleIdentity $s) {
+			return [
+				'id' => $s->getId(),
+			];
+		});
 		$cm->namespace = 'Pec\Select2FormBundle\Tests\Entity\Selectable';
 		return $cm;
 	}
 
 	/**
 	 *
-	 * @return PHPUnit_Framework_MockObject_MockObject|EntityManager
+	 * @return MockObject|EntityManagerInterface
 	 */
 	protected function mockEntityManager() {
-		$em = $this->getMockBuilder(EntityManager::class)->setMethods(array(
+		$em = $this->getMockBuilder(EntityManager::class)->setMethods([
 			'getClassMetaData',
 			'initializeObject',
 			'getRepository',
-			'contains' 
-		))->disableOriginalConstructor()->getMockForAbstractClass();
-		$em->method('contains')->will($this->returnValue(true));
-		$em->method('getClassMetaData')->will($this->returnValue($this->mockClassMetadata()));
+			'contains',
+		])->disableOriginalConstructor()->getMockForAbstractClass();
+		$em->method('contains')->willReturn(true);
+		$em->method('getClassMetaData')->willReturn($this->mockClassMetadata());
 		return $em;
 	}
 
-	protected function mockRepository($em, $metaData) {
-		$repos = $this->getMockBuilder(EntityRepository::class)->setConstructorArgs(array(
+	protected function mockRepository($em, $metaData): MockObject {
+		$repos = $this->getMockBuilder(EntityRepository::class)->setConstructorArgs([
 			$em,
-			$metaData 
-		))->setMethods(array(
-			'findOneById' 
-		))->getMock();
-		
-		$repos->method('findOneById')->will($this->returnCallback(function ($id) {
-			return new Selectable($id);
-		}));
-		
+			$metaData,
+		])->setMethods([
+			'findOneById',
+		])->getMock();
+
+		$repos->method('findOneById')->willReturnCallback(static function ($id) {
+			return new SelectableSingleIdentity($id);
+		});
+
 		return $repos;
 	}
 }

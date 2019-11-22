@@ -85,7 +85,7 @@ class OneEntityToIdTransformer implements DataTransformerInterface {
 		$this->em->initializeObject($data);
 
 		if(!$meta->getReflectionClass()->isInstance($data)) {
-			throw new TransformationFailedException('Invalid data, must be an instance of ' . $this->class . ' found ' . get_class($data));
+			throw new TransformationFailedException('Invalid data, must be an instance of ' . $meta->getReflectionClass()->getName() . ' found ' . get_class($data));
 		}
 
 		$identifierField = $meta->getSingleIdentifierFieldName();
