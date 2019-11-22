@@ -19,7 +19,8 @@
 		"oomphinc/composer-installers-extender": "^1.1",
 		"doctrine/instantiator": "^1.1",
 		"doctrine/orm": "^2.5.0",
-		"doctrine/common": "^2.5.0"
+		"doctrine/common": "^2.5.0",
+		"ext-json": "*"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",

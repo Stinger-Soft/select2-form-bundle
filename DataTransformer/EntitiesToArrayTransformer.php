@@ -107,18 +107,13 @@ class EntitiesToArrayTransformer implements DataTransformerInterface {
 
 		$identifiers = $this->em->getClassMetadata($this->class)->getIdentifierFieldNames();
 		if(count($identifiers) > 1) {
-			// load all choices
-			$availableEntities = $this->choiceList->loadChoiceList();
-
 			foreach($collection as $entity) {
-				// identify choices by their collection key
-				$key = array_search($entity, $availableEntities, true);
-				$array[] = $key;
+				$value = $this->getIdentifierValues($entity);
+				$array[] = json_encode($value);
 			}
 		} else {
 			foreach($collection as $entity) {
 				$value = current($this->getIdentifierValues($entity));
-				// $array[] = is_numeric($value) ? (int) $value : $value;
 				$array[] = is_numeric($value) ? $value . '' : $value;
 			}
 		}
@@ -142,17 +137,46 @@ class EntitiesToArrayTransformer implements DataTransformerInterface {
 			throw new UnexpectedTypeException($keys, 'array');
 		}
 
+		$identifierFieldNames = $this->classMetadata->getIdentifierFieldNames();
+
 		if(count($keys) === 1 && strpos($keys[0], ',') >= 0) {
-			$keys = explode(',', $keys[0]);
+			if(count($identifierFieldNames) > 1) {
+				$keys = explode('},{', $keys[0]);
+			} else {
+				$keys = explode(',', $keys[0]);
+			}
 		}
 
 		$notFound = [];
 
-		// TODO optimize this into a SELECT WHERE IN query
-		foreach($keys as $key) {
-			$entity = $this->em->getRepository($this->class)->findOneById($key);
-			if($entity) {
-				$collection->add($entity);
+		if(count($identifierFieldNames) === 1) {
+			$entities = $this->em->getRepository($this->class)->findBy([$identifierFieldNames[0] => $keys]);
+			if(count($entities)) {
+				foreach($entities as $entity) {
+					$collection->add($entity);
+				}
+			}
+		} else {
+			$size = count($keys);
+			foreach($keys as $index => $key) {
+				if(is_string($key)) {
+					if($size > 1) {
+						if($index === 0) {
+							$key .= '}';
+						} else if($index === $size - 1) {
+							$key = '{' . $key;
+						} else {
+							$key = '{' . $key . '}';
+						}
+					}
+					$realKey = json_decode($key, true);
+				} else {
+					$realKey = $key;
+				}
+				$entity = $this->em->getRepository($this->class)->find($realKey);
+				if($entity) {
+					$collection->add($entity);
+				}
 			}
 		}
 

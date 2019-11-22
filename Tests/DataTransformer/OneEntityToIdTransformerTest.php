@@ -9,12 +9,13 @@ use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\Query\Expr\Select;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\MockObject\MockObject;
+use ReflectionClass;
 use StingerSoft\Select2FormBundle\DataTransformer\OneEntityToIdTransformer;
 use StingerSoft\Select2FormBundle\Tests\BaseDoctrineTest;
 use StingerSoft\Select2FormBundle\Tests\Entity\SelectableSingleIdentity;
 use StingerSoft\Select2FormBundle\Tests\Entity\SelectableMultiIdentities;
 
-class OneEntityToIdTransformerTest extends BaseDoctrineTest {
+class OneEntityToIdTransformerTest extends AbstractTransformerTest {
 
 	public function testConstructSingleIdentity(): void {
 		$em = $this->mockEntityManager();
@@ -83,30 +84,6 @@ class OneEntityToIdTransformerTest extends BaseDoctrineTest {
 		$this->assertEquals('test', $selectable->getTitle());
 	}
 
-	/**
-	 *
-	 * @return MockObject|EntityManager
-	 */
-	protected function mockEntityManager() {
-		$em = $this->getMockBuilder(EntityManager::class)->setMethods([
-			'getClassMetaData',
-			'initializeObject',
-			'getRepository',
-		])->disableOriginalConstructor()->getMockForAbstractClass();
-		$em
-			->method('getClassMetaData')
-			->willReturnCallback(function ($argument) {
-				if($argument === SelectableSingleIdentity::class) {
-					return $this->mockSelectableClassMetadata();
-				}
-				if($argument === SelectableMultiIdentities::class) {
-					return $this->mockSelectableMultiKeyClassMetadata();
-				}
-				return null;
-			});
-		return $em;
-	}
-
 	protected function mockRepository($em, $metaData): MockObject {
 		$repos = $this->getMockBuilder(EntityRepository::class)->setConstructorArgs([
 			$em,
@@ -123,51 +100,6 @@ class OneEntityToIdTransformerTest extends BaseDoctrineTest {
 		});
 
 		return $repos;
-	}
-
-	protected function mockSelectableClassMetadata(): MockObject {
-		$identifier = ['id'];
-		$cm = $this->getMockBuilder(ClassMetadata::class)->setMethods([
-			'getReflectionClass',
-			'getIdentifierFieldNames',
-			'getSingleIdentifierFieldName',
-			'getIdentifierValues',
-		])->setConstructorArgs([
-			SelectableSingleIdentity::class,
-		])->getMock();
-		$cm->method('getReflectionClass')->willReturn(new \ReflectionClass(SelectableSingleIdentity::class));
-		$cm->method('getIdentifierFieldNames')->willReturn($identifier);
-		$cm->method('getSingleIdentifierFieldName')->willReturn('id');
-		$cm->method('getIdentifierValues')->willReturnCallback(static function (SelectableSingleIdentity $s) {
-			return [
-				'id' => $s->getId(),
-			];
-		});
-		$cm->identifier = $identifier;
-		$cm->namespace = 'Pec\Select2FormBundle\Tests\Entity\SelectableSingleIdentity';
-		return $cm;
-	}
-
-	protected function mockSelectableMultiKeyClassMetadata(): MockObject {
-		$identifier = ['id', 'title'];
-		$cm = $this->getMockBuilder(ClassMetadata::class)->setMethods([
-			'getReflectionClass',
-			'getIdentifierFieldNames',
-			'getIdentifierValues',
-		])->setConstructorArgs([
-			SelectableMultiIdentities::class,
-		])->getMock();
-		$cm->method('getReflectionClass')->willReturn(new \ReflectionClass(SelectableMultiIdentities::class));
-		$cm->method('getIdentifierFieldNames')->willReturn($identifier);
-		$cm->method('getIdentifierValues')->willReturnCallback(static function (SelectableMultiIdentities $s) {
-			return [
-				'id'    => $s->getId(),
-				'title' => $s->getTitle(),
-			];
-		});
-		$cm->identifier = $identifier;
-		$cm->namespace = 'Pec\Select2FormBundle\Tests\Entity\SelectableMultiIdentities';
-		return $cm;
 	}
 
 } 
