@@ -12,7 +12,7 @@
 
 namespace StingerSoft\Select2FormBundle\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -20,6 +20,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  */
@@ -32,10 +34,12 @@ class Select2HierarchicalType extends Select2BaseType {
 
 	/**
 	 *
-	 * @param ContainerInterface $container
+	 * @param RouterInterface     $router
+	 * @param TranslatorInterface $translator
+	 * @param ManagerRegistry     $managerRegistry
 	 */
-	public function __construct(ContainerInterface $container) {
-		parent::__construct($container);
+	public function __construct(RouterInterface $router, TranslatorInterface $translator, ManagerRegistry $managerRegistry) {
+		parent::__construct($router, $translator, $managerRegistry);
 		$this->propertyAccessor = PropertyAccess::createPropertyAccessor();
 	}
 
