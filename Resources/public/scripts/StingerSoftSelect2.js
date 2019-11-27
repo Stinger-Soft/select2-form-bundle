@@ -1,4 +1,4 @@
-StingerSoftSelect2 = function () {
+var StingerSoftSelect2 = function () {
 };
 
 if (typeof $.fn.select2 !== 'undefined' && typeof $.fn.select2.prototype.constructor.amd !== 'undefined' && $.fn.select2.prototype.constructor.amd.require._defined["select2/selection/search"] !== 'undefined') {
