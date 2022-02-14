@@ -32,7 +32,7 @@
 }
 (function (jQuery, select2, window, document, undefined) {
 
-	StingerSoftSelect2 = function(){};
+	const StingerSoftSelect2 = function(){};
 
 	/**
 	 * @return The select2 object generated
