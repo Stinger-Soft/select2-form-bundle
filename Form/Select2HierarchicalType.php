@@ -12,7 +12,7 @@
 
 namespace StingerSoft\Select2FormBundle\Form;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -92,7 +92,7 @@ class Select2HierarchicalType extends Select2BaseType {
 	 *            $callback
 	 * @return array
 	 */
-	public static function applyCallbackByPath(array &$array, array $path, $callback): array {
+	public static function applyCallbackByPath(array &$array, array $path, $callback): ?array {
 		$i = 0;
 		while($i < count($path) - 1) {
 			$piece = $path[$i];

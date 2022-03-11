@@ -13,7 +13,7 @@
 namespace StingerSoft\Select2FormBundle\DataTransformer;
 
 use Closure;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\NoResultException;

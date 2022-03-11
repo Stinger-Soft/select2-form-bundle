@@ -12,8 +12,8 @@
 
 namespace StingerSoft\Select2FormBundle\ChoiceLoader;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;

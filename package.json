@@ -1,0 +1,14 @@
+{
+    "name": "@stinger-soft/select2-form-bundle",
+    "version": "1.0.0",
+    "description": "select2 wrapper",
+    "main": "scripts/select2.esm.js",
+    "keywords": [
+        "grid",
+        "data",
+        "table"
+    ],
+    "dependencies": {
+        "select2": "^4.0.13"
+    }
+}

@@ -1,85 +1,75 @@
 {
-	"name": "stinger-soft/select2-form-bundle",
-	"type": "symfony-bundle",
-	"description": "Adds common forms with select2 support",
-	"autoload": {
-		"psr-4": {
-			"StingerSoft\\Select2FormBundle\\": ""
-		},
-		"exclude-from-classmap": [
-			"/Tests/"
-		]
-	},
-	"require": {
-		"php": ">=7.2",
-		"symfony/symfony": "^4.0",
-		"symfony/framework-bundle": "^4.0",
-		"symfony/form": "^4.0",
-		"npm-asset/select2": "^4.0",
-		"oomphinc/composer-installers-extender": "^1.1",
-		"doctrine/instantiator": "^1.1",
-		"doctrine/orm": "^2.5.0",
-		"doctrine/common": "^2.5.0",
-		"ext-json": "*"
-	},
-	"require-dev": {
-		"roave/security-advisories": "dev-master",
-		"michelf/php-markdown": "^1.8",
-		"pdepend/pdepend": "^2.5.2",
-		"php-coveralls/php-coveralls": "^2.1.0",
-		"phploc/phploc": "^5.0",
-		"phpmd/phpmd": "^2.7",
-		"phpunit/phpunit": "^7.5",
-		"sebastian/phpcpd": "^4.1",
-		"seld/jsonlint": "^1.7",
-		"squizlabs/php_codesniffer": "^3.5",
-		"symfony/finder": "^4.2",
-		"symfony/phpunit-bridge": "^4.2"
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "https://asset-packagist.org"
-		}
-	],
-	"extra": {
-		"branch-alias": {
-			"dev-master": "1.0.x-dev"
-		},
-		"installer-types": [
-			"bower-asset",
-			"npm-asset"
-		],
-		"installer-paths": {
-			"Tests/platform/web/assets/{$vendor}/{$name}/": [
-				"type:bower-asset",
-				"type:npm-asset"
-			]
-		}
-	},
-	"conflict": {
-		"npm-asset/select2": "4.0.6"
-	},
-	"keywords": [
-		"Stinger Soft",
-		"Select2",
-		"Form"
-	],
-	"authors": [
-		{
-			"name": "Florian Meyer",
-			"email": "florian.meyer@stinger-soft.net",
-			"role": "Developer"
-		},
-		{
-			"name": "Oliver Kotte",
-			"email": "oliver.kotte@stinger-soft.net",
-			"role": "Developer"
-		}
-	],
-	"minimum-stability": "dev",
-	"prefer-stable": true,
-	"config": {
-		"discard-changes": true
-	}
+  "name": "stinger-soft/select2-form-bundle",
+  "type": "symfony-bundle",
+  "description": "Adds common forms with select2 support",
+  "autoload": {
+    "psr-4": {
+      "StingerSoft\\Select2FormBundle\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "require": {
+    "php": "^7.4||^8.0",
+    "ext-json": "*",
+    "foxy/foxy": "^1.0.0",
+    "doctrine/annotations": "^1.13",
+    "doctrine/collections": "^1.5",
+    "doctrine/dbal": "^2.11",
+    "doctrine/orm": "^2.11",
+    "doctrine/persistence": "^2.3",
+    "symfony/config": "^5.0||6.0",
+    "symfony/doctrine-bridge": "^5.0||6.0",
+    "symfony/framework-bundle": "^5.0||6.0",
+    "symfony/form": "^5.0||6.0",
+    "symfony/http-kernel": "^5.0||6.0",
+    "symfony/intl": "^5.0||6.0",
+    "symfony/options-resolver": "^5.0||6.0",
+    "symfony/routing": "^5.0||6.0",
+    "symfony/property-access": "^5.0||6.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunit/phpunit": "^9.5",
+    "php-coveralls/php-coveralls": "^2.5",
+    "symfony/phpunit-bridge": "^5.0||^6.0"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "extra": {
+    "foxy": true,
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "keywords": [
+    "Stinger Soft",
+    "Select2",
+    "Form"
+  ],
+  "authors": [
+    {
+      "name": "Florian Meyer",
+      "email": "florian.meyer@stinger-soft.net",
+      "role": "Developer"
+    },
+    {
+      "name": "Oliver Kotte",
+      "email": "oliver.kotte@stinger-soft.net",
+      "role": "Developer"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "discard-changes": true,
+    "allow-plugins": {
+      "foxy/foxy": true
+    }
+  }
 }
