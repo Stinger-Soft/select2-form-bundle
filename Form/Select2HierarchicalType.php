@@ -14,6 +14,7 @@ namespace StingerSoft\Select2FormBundle\Form;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
+use Symfony\Component\Form\ChoiceList\Factory\Cache\AbstractStaticOption;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -161,11 +162,17 @@ class Select2HierarchicalType extends Select2BaseType {
 	}
 
 	protected function createDataArray($entityChoice, array $options, $level, array $parentData = null) {
+		dump($options['choice_label'], is_callable($options['choice_label']));
+
 		if(isset($options['choice_label']) && $options['choice_label']) {
-			if(is_string($options['choice_label'])) {
+			$choiceLabel = $options['choice_label'];
+			if(is_string($choiceLabel)) {
 				$label = $this->propertyAccessor->getValue($entityChoice, $options['choice_label']);
-			} else if(is_callable($options['choice_label'])) {
+			} else if(is_callable($choiceLabel)) {
 				$callback = $options['choice_label'];
+				$label = $callback($entityChoice, $entityChoice->getId(), null);
+			} else if($choiceLabel instanceof AbstractStaticOption) {
+				$callback = $choiceLabel->getOption();
 				$label = $callback($entityChoice, $entityChoice->getId(), null);
 			}
 		} else {
