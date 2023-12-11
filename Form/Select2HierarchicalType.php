@@ -162,8 +162,6 @@ class Select2HierarchicalType extends Select2BaseType {
 	}
 
 	protected function createDataArray($entityChoice, array $options, $level, array $parentData = null) {
-		dump($options['choice_label'], is_callable($options['choice_label']));
-
 		if(isset($options['choice_label']) && $options['choice_label']) {
 			$choiceLabel = $options['choice_label'];
 			if(is_string($choiceLabel)) {
