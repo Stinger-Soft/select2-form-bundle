@@ -57,7 +57,7 @@ class Select2HierarchicalType extends Select2BaseType {
 		 *
 		 * @var ChoiceListInterface $choiceList
 		 */
-		$choiceList = $options['choice_list'] ?? $options['choice_loader']->loadChoiceList();
+		$choiceList = $options['choice_list'] ?? $options['choice_loader']->loadChoiceList(is_callable($options['choice_value']) ? $options['choice_value'] : null);
 
 		$data = [];
 		foreach($choiceList->getChoices() as $choice) {
