@@ -88,8 +88,10 @@
 				StingerSoftSelect2.removeTitle('#{{ form.vars.id }}');
 				{% endif %}
 				var selectedOptions = [];
-				{%- for group_label, choice in choices if choice is selectedchoice(value) -%}
+				{%- for group_label, choice in choices -%}
+				{%- if if choice is selectedchoice(value) -%}
 				selectedOptions.push("{{ choice.value }}");
+				{%- endif -%}
 				{%- endfor -%}
 				$select2Field.val(selectedOptions).trigger("change");
 			};
