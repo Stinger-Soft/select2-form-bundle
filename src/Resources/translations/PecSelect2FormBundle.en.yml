@@ -1,0 +1,20 @@
+stinger_soft_form:
+  demo:
+    choice_single: Single Choice Field
+    choice_single_required: Single Choice Field (required)
+    choice_multi: Multiple Choice Field
+    choice_single_ajax: Single Choice Field (ajax)
+    choice_multi_ajax: Multiple Choice Field (ajax)
+    entity_single_required: Single Entity Field (required)
+    user_ajax: User Field (ajax)
+    hierarchical_data: Hierarchical Data
+    hierarchical_data_empty: Hierarchical Data (empty)
+    hierarchical_data_leafs: Hierarchical Data (leafs only)
+    username: Username (Synchronous)
+    username_single: Single Username (Synchronous)
+    username_ajax: Username (Asynchronous)
+    username_ajax_single: Single Username (Asynchronous)
+    placeholder: Demo Placeholder
+    save: Send
+  required:
+    validation: Please fill out all mandatory fields first.

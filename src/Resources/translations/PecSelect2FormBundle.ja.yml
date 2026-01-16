@@ -1,0 +1,16 @@
+stinger_soft_form.demo.choice_single: 単一選択フィールド
+stinger_soft_form.demo.choice_single_required: 単一選択フィールド（必須）
+stinger_soft_form.demo.choice_multi: 複数選択フィールド
+stinger_soft_form.demo.choice_single_ajax: '単一選択フィールド (ajax)'
+stinger_soft_form.demo.choice_multi_ajax: '複数選択フィールド (ajax)'
+stinger_soft_form.demo.entity_single_required: 単一入力フィールド（必須）
+stinger_soft_form.demo.user_ajax: 'ユーザーフィールド (ajax)'
+stinger_soft_form.demo.hierarchical_data: 階層データ
+stinger_soft_form.demo.hierarchical_data_empty: 階層データ（空）
+stinger_soft_form.demo.hierarchical_data_leafs: 階層データ（シートでのみ選択可能）
+stinger_soft_form.demo.username: ユーザー名（同期）
+stinger_soft_form.demo.username_single: 単一のユーザー名（同期）
+stinger_soft_form.demo.username_ajax: ユーザー名前（非同期）
+stinger_soft_form.demo.username_ajax_single: 単一のユーザー名（非同期）
+stinger_soft_form.demo.placeholder: デモ用プレースホルダー
+stinger_soft_form.demo.save: 送信

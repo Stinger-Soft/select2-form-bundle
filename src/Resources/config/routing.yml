@@ -1,0 +1,7 @@
+stinger_soft_form_demo:
+  path: /demo.html
+  controller: StingerSoft\Select2FormBundle\Controller\DemoController::indexAction
+  
+stinger_soft_form_demo_json:
+  path: /data.json
+  controller: StingerSoft\Select2FormBundle\Controller\DemoController::jsonAction
