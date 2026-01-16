@@ -3,15 +3,13 @@
   "type": "symfony-bundle",
   "description": "Adds common forms with select2 support",
   "autoload": {
-    "autoload": {
-      "psr-4": {
-        "StingerSoft\\Select2FormBundle\\": "src/"
-      }
-    },
-    "autoload-dev": {
-      "psr-4": {
-        "StingerSoft\\Select2FormBundle\\": "tests/"
-      }
+    "psr-4": {
+      "StingerSoft\\Select2FormBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "StingerSoft\\Select2FormBundle\\": "tests/"
     }
   },
   "require": {

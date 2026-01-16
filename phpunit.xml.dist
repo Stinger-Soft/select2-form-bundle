@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" bootstrap="./Tests/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage>
-    <include>
-      <directory>.</directory>
-    </include>
-    <exclude>
-      <directory>./Resources</directory>
-      <directory>./Tests</directory>
-      <directory>./vendor</directory>
-    </exclude>
-  </coverage>
-  <testsuites>
-    <testsuite name="Select2 Form Bundle Test Suite">
-      <directory>./Tests</directory>
-    </testsuite>
-  </testsuites>
-  <logging>
-    <junit outputFile="build/logs/junit.xml"/>
-  </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="./vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage>
+        <include>
+            <directory>./src</directory>
+        </include>
+        <exclude>
+            <directory>./node_modules</directory>
+            <directory>./tests</directory>
+            <directory>./vendor</directory>
+            <directory>./src/Resources</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="build/coverage"/>
+            <cobertura outputFile="build/logs/cobertura.xml"/>
+        </report>
+    </coverage>
+    <testsuites>
+        <testsuite name="UnitTests">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+        <!--        <testsuite name="IntegrationTests">-->
+        <!--            <directory suffix="Test.php">./integration_tests</directory>-->
+        <!--        </testsuite>-->
+    </testsuites>
+    <php>
+        <!--        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0" />-->
+        <!--    <env name="KERNEL_CLASS" value="StingerSoft\Select2FormBundle\TestKernel"/>-->
+        <env name="VAR_DUMPER_FORMAT" value="cli"/>
+    </php>
+    <listeners>
+        <!--        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>-->
+    </listeners>
+    <logging>
+        <junit outputFile="build/logs/junit.xml"/>
+    </logging>
 </phpunit>
