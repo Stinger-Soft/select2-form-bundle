@@ -44,21 +44,21 @@ class BaseTestType extends TypeTestCase {
 	}
 
 	/**
-	 * Init with Entity Form Type and PecSelect2
+	 * Init with Entity Form Type and StingerSoftSelect2
 	 */
 	protected function getPreloadedExtensionTypes() {
-		$pecSelect2ChoiceType = new Select2ChoiceType($this->getMockContainer());
-		$pecSelect2AsyncType = new Select2AsyncTagType($this->getMockContainer());
-		$pecSelect2SyncType = new Select2SyncTagType($this->getMockContainer());
-		$pecSelect2EntityType = new Select2EntityType($this->getMockContainer());
-		$pecSelect2HierarchicalType = new Select2HierarchicalType($this->getMockContainer());
+		$stingerSoftSelect2ChoiceType = new Select2ChoiceType($this->getMockContainer());
+		$stingerSoftSelect2AsyncType = new Select2AsyncTagType($this->getMockContainer());
+		$stingerSoftSelect2SyncType = new Select2SyncTagType($this->getMockContainer());
+		$stingerSoftSelect2EntityType = new Select2EntityType($this->getMockContainer());
+		$stingerSoftSelect2HierarchicalType = new Select2HierarchicalType($this->getMockContainer());
 
 		return [
-			$pecSelect2ChoiceType,
-			$pecSelect2AsyncType,
-			$pecSelect2SyncType,
-			$pecSelect2EntityType,
-			$pecSelect2HierarchicalType,
+			$stingerSoftSelect2ChoiceType,
+			$stingerSoftSelect2AsyncType,
+			$stingerSoftSelect2SyncType,
+			$stingerSoftSelect2EntityType,
+			$stingerSoftSelect2HierarchicalType,
 		];
 	}
 

@@ -78,7 +78,7 @@ class Select2HierarchicalType extends Select2BaseType {
 				} else {
 					$this->addChildren($choice, $data[$root], $choiceList->getChoices(), $options, 1, '_children');
 					$this->addChildrenFlat($choice, $data, $choiceList->getChoices(), $options, 1, true);
-					$view->vars['select2OptionsJavaScript']['templateResult'] = 'PecPlatform.select2.templateResult.hierarchical';
+					$view->vars['select2OptionsJavaScript']['templateResult'] = 'StingerSoftPlatform.select2.templateResult.hierarchical';
 				}
 				if ($options['remove_disabled_paths']) {
 					$this->removeDeadNodes($data, $root);

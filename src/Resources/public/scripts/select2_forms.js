@@ -32,13 +32,13 @@
 }
 (function (jQuery, select2, window, document, undefined) {
 
-	var PecSelect2 = window.PecSelect2 = window.PecSelect2 || function () {
+	var StingerSoftSelect2 = window.StingerSoftSelect2 = window.StingerSoftSelect2 || function () {
 	};
 
 	/**
 	 * @return The select2 object generated
 	 */
-	PecSelect2.init = function(selector, options) {
+	StingerSoftSelect2.init = function(selector, options) {
 		"use strict";
 		var $field = jQuery(selector);
 		var modal = $field.closest('.modal');
@@ -52,12 +52,12 @@
 				$field.one('change', function () {
 					$field.closest('.form-group, .select-parent').removeClass('has-error');
 				});
-				if(typeof window._pecSelect2ShowAlert === 'undefined' || window._pecSelect2ShowAlert === true) {
-					if(typeof PecDialog !== 'undefined') {
-						window._pecSelect2ShowAlert = false;
-						var message = Translator.trans('stinger_soft_form.required.validation', {}, 'PecSelect2FormBundle');
-						PecDialog.alert({message: message, callback: function(){
-								window._pecSelect2ShowAlert = true;
+				if(typeof window._stingerSoftSelect2ShowAlert === 'undefined' || window._stingerSoftSelect2ShowAlert === true) {
+					if(typeof StingerSoftDialog !== 'undefined') {
+						window._stingerSoftcSelect2ShowAlert = false;
+						var message = Translator.trans('stinger_soft_form.required.validation', {}, 'StingerSoftSelect2FormBundle');
+						StingerSoftDialog.alert({message: message, callback: function(){
+								window._stingerSoftSelect2ShowAlert = true;
 							}
 						});
 					}
@@ -72,7 +72,7 @@
 	 *
 	 * @param selector
 	 */
-	PecSelect2.removeTitle = function(selector) {
+	StingerSoftSelect2.removeTitle = function(selector) {
 		"use strict";
 
 		var $element = jQuery(selector);
@@ -83,7 +83,7 @@
 		});
 	};
 
-	PecSelect2.addSelectionTooltip = function (selector, placement) {
+	StingerSoftSelect2.addSelectionTooltip = function (selector, placement) {
 		"use strict";
 		var $element = jQuery(selector);
 		$element.on('select2:select select:unselect', function() {
@@ -98,7 +98,7 @@
 		});
 	};
 
-	PecSelect2.addTooltip = function(selector, placement){
+	StingerSoftSelect2.addTooltip = function(selector, placement){
 		"use strict";
 		placement = placement === 'true' || placement === true || placement === "1" ? 'auto' : placement;
 		jQuery(selector).on('select2-open', function(event){
@@ -115,44 +115,44 @@
 		});
 	};
 
-	PecSelect2.require = jQuery.fn.select2.amd.require;
+	StingerSoftSelect2.require = jQuery.fn.select2.amd.require;
 
 
-	PecSelect2.matcher = function(){};
+	StingerSoftSelect2.matcher = function(){};
 
-	PecSelect2.matcher.internal = function(){};
-	PecSelect2.matcher.internal.matched = 0;
-	PecSelect2.matcher.internal.not_matched = 1;
-	PecSelect2.matcher.internal.abstain = 2;
+	StingerSoftSelect2.matcher.internal = function(){};
+	StingerSoftSelect2.matcher.internal.matched = 0;
+	StingerSoftSelect2.matcher.internal.not_matched = 1;
+	StingerSoftSelect2.matcher.internal.abstain = 2;
 
-	PecSelect2.matcher.internal.diacritics = PecSelect2.require('select2/diacritics');
+	StingerSoftSelect2.matcher.internal.diacritics = StingerSoftSelect2.require('select2/diacritics');
 
-	PecSelect2.matcher.internal.stripDiacritics = function stripDiacritics (text) {
+	StingerSoftSelect2.matcher.internal.stripDiacritics = function stripDiacritics (text) {
 		"use strict";
 		// Used 'uni range + named function' from http://jsperf.com/diacritics/18
 		function match(a) {
-			return PecSelect2.matcher.internal.diacritics[a] || a;
+			return StingerSoftSelect2.matcher.internal.diacritics[a] || a;
 		}
 		return text.replace(/[^\u0000-\u007E]/g, match);
 	};
 
-	PecSelect2.matcher.internal.must = function(label, term){
+	StingerSoftSelect2.matcher.internal.must = function(label, term){
 		"use strict";
 		if(label.indexOf(term) < 0) {
-			return PecSelect2.matcher.internal.not_matched;
+			return StingerSoftSelect2.matcher.internal.not_matched;
 		}
-		return PecSelect2.matcher.internal.abstain;
+		return StingerSoftSelect2.matcher.internal.abstain;
 	};
 
-	PecSelect2.matcher.internal.may = function(label, term){
+	StingerSoftSelect2.matcher.internal.may = function(label, term){
 		"use strict";
 		if(label.indexOf(term) >= 0) {
-			return PecSelect2.matcher.internal.matched;
+			return StingerSoftSelect2.matcher.internal.matched;
 		}
-		return PecSelect2.matcher.internal.abstain;
+		return StingerSoftSelect2.matcher.internal.abstain;
 	};
 
-	PecSelect2.matcher.internal.matcher = function(params, data, callable, abstainMatch, labelPath) {
+	StingerSoftSelect2.matcher.internal.matcher = function(params, data, callable, abstainMatch, labelPath) {
 		"use strict";
 
 		// Always return the object if there is nothing to compare
@@ -171,8 +171,8 @@
 		if(labelPath && data.hasOwnProperty(labelPath)) {
 			label = data[labelPath];
 		}
-		var original = PecSelect2.matcher.internal.stripDiacritics(label).toUpperCase();
-		var term = PecSelect2.matcher.internal.stripDiacritics(params.term).toUpperCase();
+		var original = StingerSoftSelect2.matcher.internal.stripDiacritics(label).toUpperCase();
+		var term = StingerSoftSelect2.matcher.internal.stripDiacritics(params.term).toUpperCase();
 
 		var children = null;
 
@@ -194,7 +194,7 @@
 			for (var c = children.length - 1; c >= 0; c--) {
 				var child = children[c];
 
-				var matches = PecSelect2.matcher.internal.matcher(params, child, callable, abstainMatch, labelPath);
+				var matches = StingerSoftSelect2.matcher.internal.matcher(params, child, callable, abstainMatch, labelPath);
 
 				//	If there wasn't a match, remove the object in the array
 				if (matches === null) {
@@ -208,17 +208,17 @@
 			}
 
 			// If there were no matching children, check just the plain object
-			return PecSelect2.matcher.internal.matcher(params, match, callable, abstainMatch, labelPath);
+			return StingerSoftSelect2.matcher.internal.matcher(params, match, callable, abstainMatch, labelPath);
 		}
 
 		// Check if the text contains the term
 		var res = term.split(" ");
 		for(var i = 0; i < res.length; i++) {
 			var check = callable(original, res[i]);
-			if (check === PecSelect2.matcher.internal.matched) {
+			if (check === StingerSoftSelect2.matcher.internal.matched) {
 				return data;
 			}
-			if (check === PecSelect2.matcher.internal.not_matched) {
+			if (check === StingerSoftSelect2.matcher.internal.not_matched) {
 				return null;
 			}
 		}
@@ -226,34 +226,34 @@
 		return abstainMatch ? data : null;
 	};
 
-	PecSelect2.matcher.and = function(params, data, labelPath) {
+	StingerSoftSelect2.matcher.and = function(params, data, labelPath) {
 		"use strict";
-		return PecSelect2.matcher.internal.matcher(params, data, PecSelect2.matcher.internal.must, true, labelPath);
+		return StingerSoftSelect2.matcher.internal.matcher(params, data, StingerSoftSelect2.matcher.internal.must, true, labelPath);
 	};
 
-	PecSelect2.matcher.or = function(params, data, labelPath) {
+	StingerSoftSelect2.matcher.or = function(params, data, labelPath) {
 		"use strict";
-		return PecSelect2.matcher.internal.matcher(params, data, PecSelect2.matcher.internal.may, false, labelPath);
+		return StingerSoftSelect2.matcher.internal.matcher(params, data, StingerSoftSelect2.matcher.internal.may, false, labelPath);
 	};
 
-	PecSelect2.matcher.hierarchical_and = function(query, element){
+	StingerSoftSelect2.matcher.hierarchical_and = function(query, element){
 		"use strict";
-		return PecSelect2.matcher.and(query, element, 'path_text');
+		return StingerSoftSelect2.matcher.and(query, element, 'path_text');
 	};
 
-	PecSelect2.matcher.hierarchical_or = function(query, element){
+	StingerSoftSelect2.matcher.hierarchical_or = function(query, element){
 		"use strict";
-		return PecSelect2.matcher.or(query, element, 'path_text');
+		return StingerSoftSelect2.matcher.or(query, element, 'path_text');
 	};
 
-	PecSelect2.templateSelection = function(){};
-	PecSelect2.templateSelection.hierarchical = function(data, container){
+	StingerSoftSelect2.templateSelection = function(){};
+	StingerSoftSelect2.templateSelection.hierarchical = function(data, container){
 		"use strict";
 		return data.path_text;
 	};
 
-	PecSelect2.templateResult = function(){};
-	PecSelect2.templateResult.hierarchical = function(data){
+	StingerSoftSelect2.templateResult = function(){};
+	StingerSoftSelect2.templateResult.hierarchical = function(data){
 		"use strict";
 		if(data.hasOwnProperty('element') && data.element) {
 			for (const prop in data) {
@@ -269,7 +269,7 @@
 		return jQuery('<span style="padding-left: '+(data.level*20)+'px;">'+data.text+'</span>');
 	};
 
-    PecSelect2.templateResult.userRealnameUsername = function (data) {
+    StingerSoftSelect2.templateResult.userRealnameUsername = function (data) {
         "use strict";
 		if (data.hasOwnProperty('text') && data.text) {
 			return data.text;
@@ -292,20 +292,20 @@
     };
 
 
-	PecSelect2.ajax = function(){};
-	PecSelect2.ajax.dataMapper = function(){};
-	PecSelect2.ajax.dataMapper.noop = function(data) {
+	StingerSoftSelect2.ajax = function(){};
+	StingerSoftSelect2.ajax.dataMapper = function(){};
+	StingerSoftSelect2.ajax.dataMapper.noop = function(data) {
 		"use strict";
 		return {results: data};
 	};
 
-	PecSelect2.ajax.dataMapper.labelToText = function(data) {
+	StingerSoftSelect2.ajax.dataMapper.labelToText = function(data) {
 		"use strict";
 		var results = [];
 		jQuery(data).each(function(i, item) {
 			//If children, build optgroup format
 			if(item.hasOwnProperty('children')) {
-				var children = PecSelect2.ajax.dataMapper.labelToText(item.children).results;
+				var children = StingerSoftSelect2.ajax.dataMapper.labelToText(item.children).results;
 				results.push({
 					'text': item.hasOwnProperty('text') ? item.text : item.label,
 					'children': children
@@ -318,7 +318,7 @@
 		return {results: results};
 	};
 
-	PecSelect2.ajax.dataMapper.labelOnly = function(data) {
+	StingerSoftSelect2.ajax.dataMapper.labelOnly = function(data) {
 		"use strict";
 		var results = [];
 		jQuery(data).each(function(i, item){
@@ -332,11 +332,11 @@
 	/**
 	 * Raw markup cleaner, to escape text passed to select2
 	 */
-	PecSelect2.escapeMarkup = function(){};
-	PecSelect2.escapeMarkup.raw = function(text) {
+	StingerSoftSelect2.escapeMarkup = function(){};
+	StingerSoftSelect2.escapeMarkup.raw = function(text) {
 		"use strict";
 		return text;
 	};
 
-	return PecSelect2;
+	return StingerSoftSelect2;
 }));

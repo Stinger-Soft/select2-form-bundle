@@ -76,13 +76,13 @@ abstract class Select2BaseType extends AbstractType {
 	 *
 	 * @var string
 	 */
-	public const DATA_MAPPER_NOOP = 'PecSelect2.ajax.dataMapper.noop';
+	public const DATA_MAPPER_NOOP = 'StingerSoftSelect2.ajax.dataMapper.noop';
 
 	/**
 	 *
 	 * @var string
 	 */
-	public const DATA_MAPPER_LABEL_TO_TEXT = 'PecSelect2.ajax.dataMapper.labelToText';
+	public const DATA_MAPPER_LABEL_TO_TEXT = 'StingerSoftSelect2.ajax.dataMapper.labelToText';
 
 	/**
 	 *
@@ -181,10 +181,10 @@ abstract class Select2BaseType extends AbstractType {
 
 		switch ($form->getConfig()->getAttribute('searchMethod')) {
 			case self::SEARCH_METHOD_AND:
-				$view->vars['select2OptionsJavaScript']['matcher'] = 'PecSelect2.matcher.and';
+				$view->vars['select2OptionsJavaScript']['matcher'] = 'StingerSoftSelect2.matcher.and';
 				break;
 			case self::SEARCH_METHOD_OR:
-				$view->vars['select2OptionsJavaScript']['matcher'] = 'PecSelect2.matcher.or';
+				$view->vars['select2OptionsJavaScript']['matcher'] = 'StingerSoftSelect2.matcher.or';
 				break;
 			case self::SEARCH_METHOD_EXACT:
 				break;
@@ -241,7 +241,7 @@ abstract class Select2BaseType extends AbstractType {
 		if (is_string($form->getConfig()->getAttribute('escapeMarkup'))) {
 			$view->vars['select2OptionsJavaScript']['escapeMarkup'] = $form->getConfig()->getAttribute('escapeMarkup');
 		} else {
-			$view->vars['select2OptionsJavaScript']['escapeMarkup'] = 'PecSelect2.escapeMarkup.raw';
+			$view->vars['select2OptionsJavaScript']['escapeMarkup'] = 'StingerSoftSelect2.escapeMarkup.raw';
 		}
 	}
 
@@ -308,7 +308,7 @@ abstract class Select2BaseType extends AbstractType {
 
 		$resolver->setDefault('maximumSelectionSize', 0);
 		$resolver->addAllowedTypes('maximumSelectionSize', 'integer');
-		$resolver->setDeprecated('maximumSelectionSize', "pec-platform/select2-form-bundle", "5.0", sprintf('The option "%s" is deprecated, use "%s" instead.', 'maximumSelectionSize', 'maximumSelectionLength'));
+		$resolver->setDeprecated('maximumSelectionSize', "stinger-soft/select2-form-bundle", "1.0", sprintf('The option "%s" is deprecated, use "%s" instead.', 'maximumSelectionSize', 'maximumSelectionLength'));
 
 		$resolver->setDefault('maximumSelectionLength', 0);
 		$resolver->addAllowedTypes('maximumSelectionLength', 'integer');
@@ -375,7 +375,7 @@ abstract class Select2BaseType extends AbstractType {
 		$resolver->setDefault('routeParams', array());
 		$resolver->addAllowedTypes('routeParams', 'array');
 
-		$resolver->setDefault('dataMapper', 'PecSelect2.ajax.dataMapper.noop');
+		$resolver->setDefault('dataMapper', 'StingerSoftSelect2.ajax.dataMapper.noop');
 		$resolver->addAllowedTypes('dataMapper', array(
 			'string'
 		));

@@ -1,5 +1,5 @@
 {
-  "name": "pecselect2form",
+  "name": "@stinger-soft/select2form",
   "version": "4.0.0-beta.0",
   "description": "select2 wrapper",
   "main": "scripts/select2.esm.js",

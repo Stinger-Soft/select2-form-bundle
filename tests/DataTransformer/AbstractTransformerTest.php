@@ -1,8 +1,10 @@
 <?php
+
 /*
- * This file is part of the PEC Platform select2-form-bundle.
+ * This file is part of the Stinger Soft Select2 Form Bundle.
  *
- * (c) PEC project engineers &amp; consultants
+ * (c) Oliver Kotte <oliver.kotte@stinger-soft.net>
+ * (c) Florian Meyer <florian.meyer@stinger-soft.net>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -76,7 +78,7 @@ abstract class AbstractTransformerTest extends BaseDoctrineTest {
 			];
 		});
 		$cm->identifier = $identifier;
-		$cm->namespace = 'Pec\Select2FormBundle\Tests\Entity\SelectableSingleIdentity';
+		$cm->namespace = 'StingerSoft\Select2FormBundle\Tests\Entity\SelectableSingleIdentity';
 		return $cm;
 	}
 
@@ -98,7 +100,7 @@ abstract class AbstractTransformerTest extends BaseDoctrineTest {
 			];
 		});
 		$cm->identifier = $identifier;
-		$cm->namespace = 'Pec\Select2FormBundle\Tests\Entity\SelectableMultiIdentities';
+		$cm->namespace = 'StingerSoft\Select2FormBundle\Tests\Entity\SelectableMultiIdentities';
 		return $cm;
 	}
 }
