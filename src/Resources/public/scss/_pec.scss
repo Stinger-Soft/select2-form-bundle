@@ -1,15 +1,12 @@
-@import 'metronic-global/config';
-@import 'metronic-global/functions';
 @import "bootstrap/scss/functions";
 @import "bootstrap/scss/variables";
-@import "metronic-global/variables";
 
 select[readonly].select2-hidden-accessible + .select2-container {
   pointer-events: none;
   touch-action: none;
 
   .select2-selection {
-    background: $input-disabled-bg;
+    //background: $input-disabled-bg;
     box-shadow: none;
   }
 

@@ -13,7 +13,6 @@
 namespace StingerSoft\Select2FormBundle\Form;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -41,9 +40,9 @@ class Select2HierarchicalType extends Select2BaseType {
 	 * @param ManagerRegistry $registry
 	 */
 	public function __construct(
-		protected readonly TranslatorInterface $translator,
-		protected readonly RouterInterface     $router,
-		protected readonly ManagerRegistry     $registry
+		TranslatorInterface $translator,
+		RouterInterface     $router,
+		ManagerRegistry     $registry
 	) {
 		parent::__construct($translator, $router, $registry);
 		$this->propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -78,7 +77,7 @@ class Select2HierarchicalType extends Select2BaseType {
 				} else {
 					$this->addChildren($choice, $data[$root], $choiceList->getChoices(), $options, 1, '_children');
 					$this->addChildrenFlat($choice, $data, $choiceList->getChoices(), $options, 1, true);
-					$view->vars['select2OptionsJavaScript']['templateResult'] = 'StingerSoftPlatform.select2.templateResult.hierarchical';
+					$view->vars['select2OptionsJavaScript']['templateResult'] = 'StingerSoftSelect2.templateResult.hierarchical';
 				}
 				if ($options['remove_disabled_paths']) {
 					$this->removeDeadNodes($data, $root);
