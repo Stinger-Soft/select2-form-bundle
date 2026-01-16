@@ -166,6 +166,7 @@ class Select2HierarchicalType extends Select2BaseType {
 	}
 
 	protected function createDataArray($entityChoice, array $options, $level, array $parentData = null) {
+		$label = $entityChoice->__toString();
 		if (isset($options['choice_label']) && $options['choice_label']) {
 			if (is_string($options['choice_label'])) {
 				$label = $this->propertyAccessor->getValue($entityChoice, $options['choice_label']);
@@ -173,8 +174,6 @@ class Select2HierarchicalType extends Select2BaseType {
 				$callback = $options['choice_label'];
 				$label = $callback($entityChoice, $entityChoice->getId(), null);
 			}
-		} else {
-			$label = $entityChoice->__toString();
 		}
 		$result = array(
 			'id' => $entityChoice->getId(),
