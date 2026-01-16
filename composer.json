@@ -66,7 +66,10 @@
   "config": {
     "discard-changes": true,
     "allow-plugins": {
-      "foxy/foxy": true
+      "foxy/foxy": true,
+      "composer/installers": true,
+      "oomphinc/composer-installers-extender": true,
+      "phpstan/extension-installer": true
     }
   }
 }
